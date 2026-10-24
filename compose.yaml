@@ -1,0 +1,20 @@
+# Runs the repro on the dev box (dev-brazil): dev-mode Phoenix on :4102,
+# published through the `repro-dev-eu` Cloudflare tunnel (see
+# ../cloudflared.env) as https://hologram-head-tail-repro.jan-wirth.dev.
+name: hologram-head-tail
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: hologram-head-tail
+    environment:
+      MIX_ENV: dev
+      HOLOGRAM_START: "1"
+      PORT: "4102"
+    ports:
+      - "127.0.0.1:4102:4102"
+    # _build and deps stay in the checkout: Hologram's compiler renames its
+    # bundles from _build into priv/static, which fails across two mounts.
+    volumes:
+      - .:/app
