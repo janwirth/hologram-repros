@@ -1,0 +1,20 @@
+#!/bin/sh
+# Triggers the race on the running container, then shows the crash and what the
+# page answers. Usage: bin/repro [base_url]   (default http://127.0.0.1:4101)
+set -eu
+cd "$(dirname "$0")/.."
+base=${1:-http://127.0.0.1:4101}
+since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+echo "== GET /       before: $(curl -sS -o /dev/null -w '%{http_code}' "$base/")"
+curl -fsS "$base/repro/trigger" >/dev/null
+echo "== GET /repro/trigger, waiting 12 s for the live reload pass (nothing to wait on)"
+sleep 12
+
+echo "== log since trigger (stack frames trimmed)"
+docker compose -p hologram-live-reload-race logs --no-log-prefix --since "$since" app \
+  | grep -E '^\[error\]|^\*\* |file_utils.ex|path_registry.ex|live_reload.ex' | grep -v '^Last message' | head -20
+
+echo "== GET /       after: $(curl -sS -o /dev/null -w '%{http_code}' "$base/")"
+curl -sS "$base/" | grep -o '<title>[^<]*</title>' || true
+echo "== run 'curl $base/repro/reset' for a clean pass that brings the page back"

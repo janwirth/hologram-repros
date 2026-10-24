@@ -1,0 +1,19 @@
+# Runs the repro on the dev box: dev-mode Phoenix on :4101, published through
+# the `repro-dev-eu` Cloudflare tunnel on dev-brazil as
+# https://hologram-live-reload-race-repro.jan-wirth.dev.
+name: hologram-live-reload-race
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      MIX_ENV: dev
+      HOLOGRAM_START: "1"
+      PORT: "4101"
+    ports:
+      - "127.0.0.1:4101:4101"
+    # _build and deps stay in the checkout: Hologram's compiler renames its
+    # bundles from _build into priv/static, which fails across two mounts.
+    volumes:
+      - .:/app
