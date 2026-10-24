@@ -1,0 +1,19 @@
+# Runs the demo on dev-brazil: dev-mode Phoenix on :4103, published through
+# the `repro-dev-eu` Cloudflare tunnel (see ../cloudflared.env) as
+# https://hologram-rerender-repro.jan-wirth.dev.
+name: hologram-rerender
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      MIX_ENV: dev
+      HOLOGRAM_START: "1"
+      PORT: "4103"
+    ports:
+      - "127.0.0.1:4103:4103"
+    # _build and deps stay in the checkout: Hologram's compiler renames its
+    # bundles from _build into priv/static, which fails across two mounts.
+    volumes:
+      - .:/app
