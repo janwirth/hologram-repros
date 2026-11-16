@@ -19,6 +19,9 @@ defmodule HologramSkeletonWeb.Endpoint do
   #
   # You should set gzip to true if you are running phx.digest
   # when deploying your static files in production.
+  # Stands in for a slow connection: see HologramSkeleton.SlowBundles.
+  plug HologramSkeleton.SlowBundles
+
   plug Plug.Static,
     at: "/",
     from: :hologram_skeleton,

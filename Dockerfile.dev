@@ -19,6 +19,6 @@ WORKDIR /app
 RUN mix local.hex --force && mix local.rebar --force
 
 ENV MIX_ENV=dev
-EXPOSE 4103
+EXPOSE 4104
 
 CMD ["sh", "-c", "mix deps.get && mix phx.server"]

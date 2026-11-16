@@ -6,9 +6,9 @@ defmodule HologramSkeleton.DefaultLayout do
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Hologram re-render demo</title>
+        <title>Hologram early click repro</title>
         <link rel="stylesheet" href="/demo.css" />
-        <script src="/demo.js"></script>
+        <script src="/early.js"></script>
         <Hologram.UI.Runtime />
       </head>
       <body>

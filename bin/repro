@@ -1,0 +1,11 @@
+#!/bin/sh
+# Clicks +1 once as soon as the server's HTML is parsed, before Hologram has rendered, then prints
+# the count after the render. A lost click prints 0, a replayed one 1. Needs Lightpanda
+# (https://lightpanda.io).
+#   bin/repro [url]   (default http://localhost:4104)
+url=${1:-http://localhost:4104}
+inject='document.addEventListener("DOMContentLoaded", () => document.getElementById("increment").click());'
+${LIGHTPANDA:-lightpanda} fetch --log-level fatal --wait-ms 30000 \
+  --inject-script "$inject" \
+  --wait-script "(document.getElementById('report')?.textContent ?? '') !== ''" \
+  --dump html "$url" | grep -o '<p id="report"[^<]*' | sed 's/<p id="report"[^>]*>//'
