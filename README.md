@@ -1,6 +1,6 @@
 # Hologram repro: clicks before the first render are lost
 
-Minimal repro for clicks and keystrokes that Hologram drops while the page loads,
+Minimal repro for [bartblast/hologram#1673](https://github.com/bartblast/hologram/issues/1673): clicks and keystrokes that Hologram drops while the page loads,
 forked from [hologram_skeleton](https://github.com/bartblast/hologram_skeleton), on Hologram 0.12.9.
 Live at https://hologram-early-click-repro.jan-wirth.dev.
 

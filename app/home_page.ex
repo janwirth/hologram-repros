@@ -1,6 +1,6 @@
 defmodule HologramSkeleton.HomePage do
   @moduledoc """
-  Repro for clicks lost before Hologram's first render: the server's HTML shows a
+  Repro for bartblast/hologram#1673: clicks lost before Hologram's first render: the server's HTML shows a
   working counter, but its button has no listener until the runtime and the page
   bundle have loaded and rendered. HologramSkeleton.SlowBundles holds those
   bundles back so the window is long enough to click in.
@@ -39,6 +39,7 @@ defmodule HologramSkeleton.HomePage do
         <button type="button" id="increment" $click="increment">+1</button>
       </p>
       <p id="report"></p>
+      <p>Issue: <a href="https://github.com/bartblast/hologram/issues/1673">bartblast/hologram#1673</a>.</p>
     </main>
     """
   end
